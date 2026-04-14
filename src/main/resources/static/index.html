@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>J-Sir</title>
+    <link rel="stylesheet" href="/css/index.css" />
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <span>J-Sir, Your private Java Teacher</span>
+        <button id="themeToggle" type="button" aria-label="Toggle theme">Dark</button>
+    </div>
+    <div id="messages" class="messages is-empty">
+        <div id="emptyState" class="empty-state" aria-live="polite">
+            <span class="empty-state-badge">Ready</span>
+            <h1>J-Sir</h1>
+            <p class="empty-state-title">你的专属 Java 学习助手</p>
+            <p class="empty-state-desc">在下方输入问题，开始第一轮对话。</p>
+            <div class="empty-state-hints">
+                <span>Explain Java Stream</span>
+                <span>Review my code</span>
+                <span>Generate test cases</span>
+            </div>
+        </div>
+    </div>
+    <div class="toolbar">
+        <input id="input" type="text" placeholder="ask question..." />
+        <button id="send">send</button>
+        <button id="stop" disabled>stop</button>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.6/dist/purify.min.js"></script>
+<script src="/js/index.js"></script>
+</body>
+</html>
+

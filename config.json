@@ -1,0 +1,8 @@
+{
+  "ai": {
+    "zhipuai": {
+      "apiKey": "YOUR API KEY",
+      "model": "YOUR MODEL"
+    }
+  }
+}
