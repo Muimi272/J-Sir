@@ -1,12 +1,13 @@
 # J-Sir
 
-一个基于 **Spring Boot + Spring AI** 的 Java 学习助手，支持前端流式聊天、Markdown 渲染、代码块复制、深浅色模式切换，以及本地对话记忆。
+一个基于 **Spring Boot + Spring AI** 的 Java 学习助手，支持前端流式聊天、Markdown 渲染、代码块复制、深浅色模式切换，以及本地对话记忆与学习进度追踪。
 
 ## 功能特性
 
 - 流式 AI 对话：前端通过 `POST /ai/chat` 获取流式回复
 - 对话记忆：服务端将历史记录写入本地 `chat-history.json`
 - 记忆裁剪：仅保留最近 **20 轮**（40 条消息）
+- 学习进度追踪：通过 Spring AI Tool 自动记录知识点到 `progress.json`
 - Markdown 渲染：支持代码块、表格、列表、引用等
 - 前端体验：动态背景、空状态、发送状态（加载/成功/失败）、代码块复制按钮（hover 显示）
 - 主题切换：支持深色/浅色模式
@@ -25,6 +26,7 @@
 J-Sir/
 ├─ config.json                       # AI 配置（根目录，运行时读取）
 ├─ chat-history.json                 # 本地对话历史
+├─ progress.json                     # 学习进度（知识点）记录
 ├─ pom.xml
 ├─ src/main/java/com/Muimi/JSir/
 │  ├─ DemoApplication.java           # 启动入口（启动前应用 AI 配置）
@@ -34,7 +36,9 @@ J-Sir/
 │  ├─ dto/
 │  │  └─ ChatRequest.java            # 请求体：{ "msg": "..." }
 │  ├─ service/
-│  │  └─ AIService.java              # 流式对话 + 记忆拼接
+│  │  └─ AIService.java              # 流式对话 + 记忆拼接 + 工具调用
+│  ├─ tools/
+│  │  └─ LearningProgressTool.java   # 学习进度读写工具
 │  └─ utils/
 │     ├─ ConfigUtil.java             # 读取并应用 config.json
 │     └─ HistoryUtil.java            # 读写 chat-history.json
@@ -84,7 +88,7 @@ J-Sir/
 
 默认端口来自 `src/main/resources/application.properties`：`10101`。
 
-应用启动后会尝试自动打开浏览器：`http://localhost:10101/ `。
+应用启动时会先读取学习进度（`progress.json`），然后尝试自动打开浏览器：`http://localhost:10101/`。
 
 ## 接口说明
 
@@ -110,6 +114,13 @@ J-Sir/
 - 数据结构：按 `role + content` 存储（`user` / `assistant`）
 - 裁剪策略：超过 20 轮时，仅保留最近 20 轮
 
+## 学习进度机制
+
+- 文件：`progress.json`
+- 初始化：应用启动时读取，若文件不存在会自动创建
+- 记录方式：通过 `LearningProgressTool` 在对话中记录本轮涉及的知识点
+- 使用方式：模型可先读取历史知识点，再结合当前问题进行个性化回答
+
 ## 前端说明
 
 - 页面：`/`（静态资源）或 `/page`
@@ -120,6 +131,7 @@ J-Sir/
 ## 常见问题
 
 - 启动时报 `Missing config file`：请确认根目录存在 `config.json`
+- 学习进度未生效：确认根目录 `progress.json` 可读写，且对话内容与 Java 学习相关
 - 返回 404 或静态资源路径异常：确认请求路径是 `POST /ai/chat`，页面入口使用 `/` 或 `/page`
 - 无回复或报鉴权错误：检查 `config.json` 的 `apiKey` 与 `model`
 
