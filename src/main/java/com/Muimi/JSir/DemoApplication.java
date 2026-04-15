@@ -2,7 +2,6 @@ package com.Muimi.JSir;
 
 import com.Muimi.JSir.tools.LearningProgressTool;
 import com.Muimi.JSir.utils.ConfigUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
