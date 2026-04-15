@@ -1,5 +1,6 @@
 package com.Muimi.JSir;
 
+import com.Muimi.JSir.tools.LearningProgressTool;
 import com.Muimi.JSir.utils.ConfigUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -13,6 +14,7 @@ import java.util.List;
 public class DemoApplication {
     public static void main(String[] args) {
         ConfigUtil.applyAiConfig();
+        LearningProgressTool.readLearningProgress();
         SpringApplication.run(DemoApplication.class, args);
         String url = "http://localhost:10101/";
         try {
